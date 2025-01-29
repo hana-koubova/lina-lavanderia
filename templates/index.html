@@ -130,7 +130,7 @@
             </div>
             <div class="col-lg-6 col-sm-10 right-container d-flex justify-content-center p-2">
                 <div class="right-inner-container">
-                    <form method="POST" action="{{ url_for('index') }}">
+                    <form id="contact-form" method="POST" action="{{ url_for('index') }}">
                         {{ form.csrf_token }}
                         <h2 class="lg-view">Llena formulario</h2>
                         <p>* Obligatorio</p>
@@ -144,12 +144,44 @@
                         {{ form.company(class_="input", placeholder="Empresa") }}
                         {{ form.phone(class_="input", placeholder="Teléfono") }}
                         {{ form.message(class_="input", placeholder="Mensaje", rows="4") }}
-                        <button class="border">ENVIAR</button>
+                        <button id="submit-contact-form-button" class="border">ENVIAR</button>
                     </form>
+                    <p id="success-message"></p>
                 </div>
             </div>
         </div>
 </div>
 </section>
+
+<script>
+    var form = document.getElementById('contact-form')
+    var messageDiv = document.getElementById('success-message');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        messageDiv.innerText = 'Enviando mensaje...';
+        messageDiv.style.display = 'block';
+
+        const formData = new FormData(form);
+        fetch('/', {
+            method: 'POST',
+            body: formData,
+        }).then(function(response) {
+            
+            
+            
+        }).then(function(data) {
+            // Clear input fields
+            document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(input => input.value = '');
+
+            // Show success message
+            
+            messageDiv.innerText = 'Hemos enviado tu mensaje';
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+
+
+</script>
 
 {% endblock %}

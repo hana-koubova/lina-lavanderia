@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap5
 import os
 from forms import ContactForm
 from flask_mail import Mail, Message
+from werkzeug.exceptions import HTTPException
 
 
 ## WTFORMS
@@ -23,8 +24,9 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'koubovahan@gmail.com'
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = 'lina@contact.com'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
 
@@ -46,24 +48,39 @@ def index():
         company = request.form['company']
         phone = request.form['phone']
         message = request.form['message']
-        flash('Mensaje se ha envidado! Te contactaremos pronto.')
-
+        print('Form accepted')
 
         msg = Message( 
-                message, 
-                sender = 'koubovahan@gmail.com', 
+                subject='Contact Form',  
                 recipients = ['koubovahan@gmail.com'] 
                ) 
-        msg.subject = {email}
-        #msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        #msg.subject = {email}
+        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        print('Msg created')
+        mail.send(msg)
+        flash('Your message was sent') 
 
-        mail.send(msg) 
-
-        return 'Mail has sent dude!'
+        #return redirect(url_for('index'))
 
     return render_template('index.html',
                            negocios=negocios,
                            form=form)
+
+@app.route("/test", methods=['GET', 'POST'])
+def test():
+    msg = Message( 
+                subject='Test', 
+                recipients = ['koubovahan@gmail.com'] 
+               )
+    try:
+        mail.send(msg)
+        return 'Email sent'
+    except HTTPException as error:
+
+        return error
+
+    
+    
 
 
 
