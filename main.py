@@ -50,11 +50,11 @@ def index():
 
 
         msg = Message( 
-                message = 'Something', 
-                sender = email, 
+                message, 
+                sender = 'koubovahan@gmail.com', 
                 recipients = ['koubovahan@gmail.com'] 
                ) 
-        msg.subject = 'Contact Form Submission Test'
+        msg.subject = {email}
         #msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
 
         mail.send(msg) 
