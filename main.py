@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap5
 import os
 from forms import ContactForm
 from flask_mail import Mail, Message
-import mailtrap as mt
 
 
 ## WTFORMS
