@@ -50,16 +50,16 @@ def index():
 
 
         msg = Message( 
-                message, 
+                message = 'Something', 
                 sender = email, 
-                recipients = 'koubovahan@gmail.com' 
+                recipients = ['koubovahan@gmail.com'] 
                ) 
-        msg.subject = 'Contact Form Submission'
-        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        msg.subject = 'Contact Form Submission Test'
+        #msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
 
         mail.send(msg) 
 
-        return redirect(url_for('index'))
+        return 'Mail has sent dude!'
 
     return render_template('index.html',
                            negocios=negocios,
