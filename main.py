@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap5
 import os
 from forms import ContactForm
 from flask_mail import Mail, Message
+import mailtrap as mt
 
 
 ## WTFORMS
@@ -19,18 +20,24 @@ bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
 
+#app.config['MAILTRAP_API_TOKEN'] = os.environ.get('MAILTRAP_API_TOKEN')
 
-from flask import Flask, render_template, request, redirect, flash, url_for
-from flask_mail import Mail, Message
-
-app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+#def send_email_via_api(to_email, subject, body):
+#    mail = mt.Mail(
+#        sender=mt.Address(email="sender@example.com", name="Sender Name"),
+#        to=[mt.Address(email=to_email)],
+#        subject=subject,
+#        text=body,
+#    )
+#    client = mt.MailtrapClient(token=os.environ.get('MAILTRAP_API_TOKEN'))
+#    client.send(mail)
+#    return True
 
 ## Mailtrap configuration for production
 
-app.config['MAIL_SERVER'] = 'live.smtp.mailtrap.io'
-app.config['MAIL_PORT'] = 587  # You can also use 2525 or 25
-app.config['MAIL_USERNAME'] = 'api'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'koubovahan@gmail.com'
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
@@ -57,14 +64,33 @@ def index():
         message = request.form['message']
         flash('Mensaje se ha envidado! Te contactaremos pronto.')
 
+        ## FIRST OPTION
         # Compose email
-        msg = Message(subject='Contact Form Submission',
-                      sender=email,
-                      recipients=['koubovahan@gmail.com'],
-                      body=f"Name: {name}\nEmail: {email}\nMessage: {message}")
+        #msg = Message(subject='Contact Form Submission',
+        #              sender=email,
+        #              recipients=['koubovahan@gmail.com'],
+        #              body=f"Name: {name}\nEmail: {email}\nMessage: {message}")
         
         # Send email
-        mail.send(msg)
+        #mail.send(msg)
+
+        ## SECOND OPTION
+        # Compose email
+
+        msg = Message( 
+                message, 
+                sender = email, 
+                recipients = 'koubovahan@gmail.com' 
+               ) 
+        msg.subject = 'Contact Form Submission'
+        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+
+        # Send email via Mailtrap API
+        #if send_email_via_api('koubovahan@gmail.com', subject, body):
+        #    flash('Thank you for your message!')
+        #else:
+        #    flash('Failed to send message.')
+        mail.send(msg) 
 
         return redirect(url_for('index'))
 
