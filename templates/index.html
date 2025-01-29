@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title %} Lavanderia {% endblock %}
 {% block description %}"Lavamos tu colada mientras tu te centras en tu negocio."{% endblock %}
 
@@ -129,7 +130,8 @@
             </div>
             <div class="col-lg-6 col-sm-10 right-container d-flex justify-content-center p-2">
                 <div class="right-inner-container">
-                    <form action="#">
+                    <form method="POST" action="{{ url_for('index') }}">
+                        {{ form.csrf_token }}
                         <h2 class="lg-view">Llena formulario</h2>
                         <p>* Obligatorio</p>
                         <div class="social-container">
@@ -137,11 +139,11 @@
                             <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                             <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <input type="text" placeholder="Nombre *"  />
-                        <input type="email" placeholder="Correo *" />
-                        <input type="text" placeholder="Empresa" />
-                        <input type="phone" placeholder="Teléfono" />
-                        <textarea rows="4" placeholder="Mensaje"></textarea>
+                        {{ form.name(class_="input", placeholder="Nombre *") }}
+                        {{ form.email(class_="input", placeholder="Correo *") }}
+                        {{ form.company(class_="input", placeholder="Empresa") }}
+                        {{ form.phone(class_="input", placeholder="Teléfono") }}
+                        {{ form.message(class_="input", placeholder="Mensaje", rows="4") }}
                         <button class="border">ENVIAR</button>
                     </form>
                 </div>
