@@ -19,21 +19,6 @@ bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
 
-#app.config['MAILTRAP_API_TOKEN'] = os.environ.get('MAILTRAP_API_TOKEN')
-
-#def send_email_via_api(to_email, subject, body):
-#    mail = mt.Mail(
-#        sender=mt.Address(email="sender@example.com", name="Sender Name"),
-#        to=[mt.Address(email=to_email)],
-#        subject=subject,
-#        text=body,
-#    )
-#    client = mt.MailtrapClient(token=os.environ.get('MAILTRAP_API_TOKEN'))
-#    client.send(mail)
-#    return True
-
-## Mailtrap configuration for production
-
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'koubovahan@gmail.com'
@@ -63,18 +48,6 @@ def index():
         message = request.form['message']
         flash('Mensaje se ha envidado! Te contactaremos pronto.')
 
-        ## FIRST OPTION
-        # Compose email
-        #msg = Message(subject='Contact Form Submission',
-        #              sender=email,
-        #              recipients=['koubovahan@gmail.com'],
-        #              body=f"Name: {name}\nEmail: {email}\nMessage: {message}")
-        
-        # Send email
-        #mail.send(msg)
-
-        ## SECOND OPTION
-        # Compose email
 
         msg = Message( 
                 message, 
@@ -84,11 +57,6 @@ def index():
         msg.subject = 'Contact Form Submission'
         msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
 
-        # Send email via Mailtrap API
-        #if send_email_via_api('koubovahan@gmail.com', subject, body):
-        #    flash('Thank you for your message!')
-        #else:
-        #    flash('Failed to send message.')
         mail.send(msg) 
 
         return redirect(url_for('index'))
