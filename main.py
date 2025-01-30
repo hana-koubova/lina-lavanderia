@@ -58,9 +58,6 @@ def index():
         msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
         print('Msg created')
         mail.send(msg)
-        flash('Your message was sent') 
-
-        #return redirect(url_for('index'))
 
     return render_template('index.html',
                            negocios=negocios,

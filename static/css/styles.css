@@ -78,6 +78,10 @@ p {
     font-size: 0.8em;
 }
 
+.super-small-letters {
+    font-size: 0.5em;
+}
+
 a {
     color: var(--orange);
     text-decoration: none;
@@ -201,6 +205,7 @@ a:hover, a:focus, a:active {
 .gratis-text {
     color: white;
     z-index: 10;
+    position:relative;
 }
 
 
