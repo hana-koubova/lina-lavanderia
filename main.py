@@ -55,7 +55,7 @@ def index():
                 recipients = ['koubovahan@gmail.com'] 
                ) 
         #msg.subject = {email}
-        msg.body = f"Name: {name}\nEmail: {email}\nMessage: {message}"
+        msg.body = f"Name: {name}\nEmail: {email}\nCompany: {company}\nPhone: {phone}\nMessage: {message}"
         print('Msg created')
         mail.send(msg)
 

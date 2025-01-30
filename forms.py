@@ -8,5 +8,5 @@ class ContactForm(FlaskForm):
     email = EmailField(label='Correo', validators=[DataRequired(), Email()])
     company = StringField(label='Empresa')
     phone = StringField(label='Telefono')
-    message = StringField(label='Mensaje', widget=TextArea())
+    message = StringField(label='Mensaje', widget=TextArea(), validators=[DataRequired()])
     submit = SubmitField(label='ENVIAR')
