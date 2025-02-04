@@ -34,7 +34,7 @@ mail = Mail(app)
 def index():
     form = ContactForm()
     negocios = [
-        'Spa y Masasjes',
+        'Spa y Masajes',
         'Restaurantes',
         'Clubes Deportivos',
         'Hoteles y Apartamentos',
