@@ -10,3 +10,14 @@ class ContactForm(FlaskForm):
     phone = StringField(label='Telefono')
     message = StringField(label='Mensaje', widget=TextArea(), validators=[DataRequired()])
     submit = SubmitField(label='ENVIAR')
+
+
+class RegisterForm(FlaskForm):
+    org_number = StringField(label='Número VAT (CIF)', validators=[DataRequired()])
+    company_name = StringField(label='Nombre de Empresa', validators=[DataRequired()])
+    contact_name = StringField(label='Nombre de Persona', validators=[DataRequired()])
+    email = EmailField(label='Correo', validators=[DataRequired(), Email()])
+    phone = StringField(label='Telefono', validators=[DataRequired()])
+    type_company = StringField(label='Typo de Actividad de la empresa')
+    address = StringField(label='Dirección (donde recogimos coladas)', validators=[DataRequired()])
+    submit = SubmitField(label='RegistrarMe')

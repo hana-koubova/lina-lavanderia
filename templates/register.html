@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %} Lina | Inscribir Tu Empresa {% endblock %}
+{% block description %}"Optimiza tu negocio con un servicio de lavandería eficiente y sostenible. Inscribirte y empieza pedir recogidas de tus coladas."{% endblock %}
+
+{% block content %}
+
+<section class="mb-5">
+    <div class="container-fluid">
+        <h1 class="text-center m-5">Inscribir a tu Empresa</h1>
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-10">
+
+                <form id="register-form" method="POST" action="{{ url_for('register') }}">
+                    {{ form.csrf_token }}
+                    <p>* Obligatorio</p>
+                    {{ form.org_number(class_="input", placeholder="Número VAT (CIF) *") }}
+                    {{ form.company_name(class_="input", placeholder="Nombre de Empresa *") }}
+                    {{ form.contact_name(class_="input", placeholder="Nombre de Persona *") }}
+                    {{ form.email(class_="input", placeholder="Correo *") }}
+                    {{ form.phone(class_="input", placeholder="Teléfono *") }}
+                    {{ form.type_company(class_="input", placeholder="Typo de actividad de la empresa") }}
+                    {{ form.address(class_="input", placeholder="Dirección (donde recogimos coladas) *") }}
+                    
+                    <button class="mt-5" id="submit-register-form-button" class="border">Inscribirme</button>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

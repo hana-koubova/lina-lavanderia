@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, session, jsonify, send_file, send_from_directory, make_response
 from flask_bootstrap import Bootstrap5
 import os
-from forms import ContactForm
+from forms import ContactForm, RegisterForm
 from flask_mail import Mail, Message
 from werkzeug.exceptions import HTTPException
 
@@ -9,6 +9,10 @@ from werkzeug.exceptions import HTTPException
 ## WTFORMS
 
 from flask_wtf.csrf import CSRFProtect
+
+## Inner Dependencies
+
+from database import db, pre_approve, user_companies
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
@@ -63,6 +67,36 @@ def index():
                            negocios=negocios,
                            form=form)
 
+
+@app.route('/inscribirse', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit() and request.method == 'POST':
+        new_register = {
+            'org_number': request.form['org_number'],
+            'company_name': request.form['company_name'],
+            'contact_name': request.form['contact_name'], 
+            'email': request.form['email'],
+            'phone': request.form['phone'],
+            'type_company': request.form['type_company'],
+            'address': request.form['address'],
+            'approved': False
+            }
+        user_companies.insert_one(new_register)
+        msg = Message( 
+                subject='Lina - New Register',  
+                recipients = ['koubovahan@gmail.com'] 
+               )
+        msg.body = 'Hi, there is a new register in your system. You are allowed to buy one t-shirt :)'
+        mail.send(msg)
+        return redirect(url_for('register_success'))
+    return render_template('register.html',
+                    form = form)
+
+@app.route('/insription-completo')
+def register_success():
+    return render_template('register_success.html')
+
 @app.route("/test", methods=['GET', 'POST'])
 def test():
     msg = Message( 
@@ -75,9 +109,6 @@ def test():
     except HTTPException as error:
 
         return error
-
-    
-    
 
 
 
