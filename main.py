@@ -83,12 +83,12 @@ def register():
             'approved': False
             }
         user_companies.insert_one(new_register)
-        msg = Message( 
-                subject='Lina - New Register',  
-                recipients = ['koubovahan@gmail.com'] 
-               )
-        msg.body = 'Hi, there is a new register in your system. You are allowed to buy one t-shirt :)'
-        mail.send(msg)
+        #msg = Message( 
+        #        subject='Lina - New Register',  
+        #        recipients = ['koubovahan@gmail.com'] 
+        #       )
+        #msg.body = 'Hi, there is a new register in your system. You are allowed to buy one t-shirt :)'
+        #mail.send(msg)
         return redirect(url_for('register_success'))
     return render_template('register.html',
                     form = form)
