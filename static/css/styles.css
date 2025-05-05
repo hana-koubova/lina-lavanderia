@@ -353,4 +353,5 @@ form p {
 .order-but {
     background-color: var(--yellow-strong);
     border: none;
+    z-index: 10;
 }
