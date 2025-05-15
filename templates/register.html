@@ -15,6 +15,9 @@
                     {{ form.csrf_token }}
                     <p>* Obligatorio</p>
                     {{ form.org_number(class_="input", placeholder="Número VAT (CIF) *") }}
+                    {% if message != None %}
+                    <p class="text-danger">{{ message }}</p>
+                    {% endif %}
                     {{ form.company_name(class_="input", placeholder="Nombre de Empresa *") }}
                     {{ form.contact_name(class_="input", placeholder="Nombre de Persona *") }}
                     {{ form.email(class_="input", placeholder="Correo *") }}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} Lina | Cómo Funcciona {% endblock %}
+{% block description %}"Optimiza tu negocio con un servicio de lavandería eficiente y sostenible. Inscribirte y empieza pedir recogidas de tus coladas."{% endblock %}
+
+{% block content %}
+
+<section class="mt-5">
+    <div class="container-fluid p-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-5 col-md-10 col-sm-12 mb-4">
+                <img class="img-fit mb-4" src="/static/images/business_owner.png" />
+            </div>
+            <div class="col-lg-7 col-md-10 col-sm-12 d-flex flex-column justify-content-between">
+                <h4>¿Cómo Funcciona?</h4>
+                <h2>Descubre más sobre cómo trabajamos con nuestros clientos.</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<hr class="section-divider">
+<section>
+    <div class="container-fluid explain-container">
+        <div class="row m-3 explain-row">
+            <div class="col-2">
+                <h2>1.</h2>
+            </div>
+            <div class="col">
+                <p class="fs-3 font-bolder p-2">Regístrate para que podamos verificar tus datos y añadirte a nuestra base de datos. Así nos conocemos mejor.</p>
+                <p class="fs-5 font-bold p-2 pr-2">Normalmente necesitamos uno o dos días laborables para este proceso. Te informaremos tan pronto como esté listo.</p>
+            </div>
+        </div>
+        <hr class="small-divider">
+        <div class="row m-3 explain-row">
+            <div class="col-2">
+                <h2>2.</h2>
+            </div>
+            <div class="col">
+                <p class="fs-3 font-bolder p-2">Proporcionamos bolsas de lavandería a tu empresa. Cuando la bolsa (o las bolsas) se llenen, podrás solicitar una recogida.</p>
+                <p class="fs-5 font-bold p-2 pr-2">Solicita la recogida a través de nuestro sistema online. O, si lo prefieres, simplemente llámanos por teléfono o envíanos un mensaje por WhatsApp. Lo que te resulte más cómodo.</p>
+            </div>
+        </div>
+        <hr class="small-divider">
+        <div class="row m-3 explain-row">
+            <div class="col-2">
+                <h2>3.</h2>
+            </div>
+            <div class="col">
+                <p class="fs-3 font-bolder p-2">Te devolvemos la ropa limpia y planchada en unos días.</p>
+                <p class="fs-5 font-bold p-2 pr-2">Lavamos tu ropa según tus necesidades específicas. No hay suscripción mensual. Recibirás una única factura al mes.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <div class="container-fluid mt-5 mb-5">
+    <div class="row d-flex justify-content-around">
+        <a class="register-but btn" href="{{ url_for('register')}}">INSCRIBIRSE</a>
+        <!--<button class="order-but">Pedir recogida</button>-->
+    </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

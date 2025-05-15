@@ -245,6 +245,12 @@ a:hover, a:focus, a:active {
     margin: 4em auto;
 }
 
+.small-divider {
+    width: 70%;
+    border: 1px solid white;
+    margin: 4em auto;
+}
+
 @media (width <= 720px) {
     .img-negocio {
         width: 60%;
@@ -333,6 +339,10 @@ form p {
   text-align: left;
 }
 
+/*-----------------------
+      REGISTER RELEVANT
+-------------------------*/
+
 .register-but, .order-but {
     width: 200px;
     font-size: 1.2em;
@@ -354,4 +364,27 @@ form p {
     background-color: var(--yellow-strong);
     border: none;
     z-index: 10;
+}
+
+/*-----------------------
+      COMO FUNCCIONA
+-------------------------*/
+
+.explain-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--turquise);
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.explain-container p {
+    color: white;
+}
+
+.explain-container .row {
+    width: 90%;
 }

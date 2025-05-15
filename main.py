@@ -71,7 +71,16 @@ def index():
 @app.route('/inscribirse', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+    message = None
     if form.validate_on_submit() and request.method == 'POST':
+        #nunmber_to_check = request.form['org_number']
+        duplicate = list(user_companies.find({'org_number': request.form['org_number']}))
+        if len(duplicate) > 0:
+            message = 'Ya hay empresa con este número en nuestra base de datos.'
+            return render_template('register.html',
+                    form = form,
+                    message = message)
+        
         new_register = {
             'org_number': request.form['org_number'],
             'company_name': request.form['company_name'],
@@ -91,11 +100,16 @@ def register():
         mail.send(msg)
         return redirect(url_for('register_success'))
     return render_template('register.html',
-                    form = form)
+                    form = form,
+                    message = message)
 
 @app.route('/insription-completo')
 def register_success():
     return render_template('register_success.html')
+
+@app.route('/como_funcciona')
+def como_funcciona():
+    return render_template('como_funcciona.html')
 
 @app.route("/test", methods=['GET', 'POST'])
 def test():
