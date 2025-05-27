@@ -24,7 +24,14 @@
                     {{ form.phone(class_="input", placeholder="Teléfono *") }}
                     {{ form.type_company(class_="input", placeholder="Typo de actividad de la empresa") }}
                     {{ form.address(class_="input", placeholder="Dirección (donde recogimos coladas) *") }}
-                    
+                    <div class="d-flex">
+                        <div class="m-2">{{ form.terms_accept() }}</div>
+                        <div class="m-2">
+                            <label for="{{ form.terms_accept.id }}">
+                                He leído y acepto los <a class="link-obvious" href="{{ url_for('legal_info', legal_url='terminos-de-servicio') }}" target="_blank" rel="noopener noreferrer">Términos y Condiciones del servicio</a>.
+                            </label>
+                        </div>
+                    </div>
                     <button class="mt-5" id="submit-register-form-button" class="border">Inscribirme</button>
 
 

@@ -67,9 +67,9 @@
     <div class="container">
         <footer class="py-3 my-4">
           <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Terms of Use</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Privacy Policy</a></li>
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Inicio</a></li>
+            <li class="nav-item"><a href="{{ url_for('legal_info', legal_url='terminos-de-servicio') }}" class="nav-link px-2 text-body-secondary">Términos de Servicio</a></li>
+            <li class="nav-item"><a href="{{ url_for('legal_info', legal_url='politica-de-privacidad') }}" class="nav-link px-2 text-body-secondary">Política de Privacidad</a></li>
   
           </ul>
           <p class="text-center"><a href="https://www.linkedin.com/in/hanakoubova-979928a4/" class="">Hana Koubova</a></p>

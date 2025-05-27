@@ -16,5 +16,6 @@ except Exception as e:
     print(e)
 
 db = client['users']
-pre_approve = db['pre_approve']
 user_companies = db['user_companies']
+admins = db['admins']
+legals = db['legals']

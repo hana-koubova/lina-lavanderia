@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, session, jsonify, send_file, send_from_directory, make_response
 from flask_bootstrap import Bootstrap5
 import os
-from forms import ContactForm, RegisterForm
+from forms import ContactForm, RegisterForm, AdminForm, LegalForm
 from flask_mail import Mail, Message
 from werkzeug.exceptions import HTTPException
-
+from bson import ObjectId
 
 ## WTFORMS
 
@@ -12,12 +12,36 @@ from flask_wtf.csrf import CSRFProtect
 
 ## Inner Dependencies
 
-from database import db, pre_approve, user_companies
+from database import db, user_companies, admins, legals
+
+## Logins related
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+
+## CK editor
+
+from flask_ckeditor import CKEditor, CKEditorField
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 
 bootstrap = Bootstrap5(app)
+
+ckeditor = CKEditor(app)
+
+# Login manager and User model
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin):
+    pass
+
+@login_manager.user_loader
+def user_loader(username):
+    user = User()
+    user.id = username
+    return user
 
 ## CSFP protection
 
@@ -107,9 +131,89 @@ def register():
 def register_success():
     return render_template('register_success.html')
 
-@app.route('/como_funcciona')
+@app.route('/como-funcciona')
 def como_funcciona():
     return render_template('como_funcciona.html')
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    error = None
+    login_form = AdminForm()
+    if login_form.validate_on_submit() and request.method == 'POST':
+        print('Validated')
+        admin_name = request.form['admin_name']
+        password = request.form['password']
+        print('We have name and password')
+
+        # Find user by admin_name
+        current_admin = admins.find_one({'admin_name': admin_name}, {"_id": 0, "admin_name": 1, "password": 1})
+        print(current_admin)
+        if current_admin == None:
+            error = 'Admin not found in database.'
+        # Check password hash
+        else:
+            try:
+                if password == current_admin['password']:
+                    print('Password matches')
+                    user = User()
+                    user.id = admin_name
+                    login_user(user)
+                    print('Logging user in')
+                    return redirect(url_for('dashboard'))
+                else:
+                    print('There was an error')
+                    error = 'Wrong password'
+                    #return error
+            except:
+                error = 'Wrong password'
+    return render_template('admin.html',
+                           form=login_form,
+                           error=error)
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+
+
+@app.route('/legal')
+@login_required
+def legal():
+    legal_docs = legals.find({})
+    return render_template('legal.html',
+                           legal_docs=legal_docs)
+
+@app.route('/legal_edit/<doc_id>', methods=['GET', 'POST'])
+@login_required
+def legal_edit(doc_id):
+    form = LegalForm()
+    legal_doc = legals.find_one({'_id': ObjectId(doc_id)})
+    print(legal_doc['name'])
+    if form.validate_on_submit() and request.method == 'POST':
+        new_values = {"$set": { 'name': request.form['name'],
+                               'text': request.form['text']}}
+        legals.update_one(legal_doc, new_values)
+        return redirect(url_for('legal'))
+    
+    print(form.errors)
+
+    return render_template('legal_edit.html',
+                           doc=legal_doc,
+                           form=form
+                           )
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/legal/<legal_url>')
+def legal_info(legal_url):
+    legal_doc = legals.find_one({'legal_url': legal_url})
+    return render_template('legal_info.html',
+                           doc = legal_doc)
 
 @app.route("/test", methods=['GET', 'POST'])
 def test():
